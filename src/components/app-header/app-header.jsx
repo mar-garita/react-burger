@@ -19,7 +19,7 @@ function AppHeader() {
                 <nav className={styles.navigation}>
                     <a href="#"
                        onMouseEnter={() => handleMouseEnter('constructor')}
-                       onMouseLeave={() => handleMouseLeave()}
+                       onMouseLeave={handleMouseLeave}
                        className={isNavLinkHovered === 'constructor' ? `${styles.link_active}` : `${styles.link_inactive}`}
                     >
                         <BurgerIcon type={isNavLinkHovered === 'constructor' ? "primary" : "secondary"} />
@@ -28,7 +28,7 @@ function AppHeader() {
 
                     <a href="#"
                        onMouseEnter={() => handleMouseEnter('order-list')}
-                       onMouseLeave={() => handleMouseLeave()}
+                       onMouseLeave={handleMouseLeave}
                        className={isNavLinkHovered === 'order-list' ? `${styles.link_active}` : `${styles.link_inactive}`}
                     >
                         <ListIcon type={isNavLinkHovered === 'order-list' ? "primary" : "secondary"} />
@@ -41,7 +41,7 @@ function AppHeader() {
                 <div className={styles.profile}>
                     <a href="#"
                        onMouseEnter={() => handleMouseEnter('profile')}
-                       onMouseLeave={() => handleMouseLeave()}
+                       onMouseLeave={handleMouseLeave}
                        className={isNavLinkHovered === 'profile' ? `${styles.link_active}` : `${styles.link_inactive}`}
                     >
                         <ProfileIcon type={isNavLinkHovered === 'profile' ? "primary" : "secondary"} />
