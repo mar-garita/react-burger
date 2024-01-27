@@ -11,30 +11,30 @@
     gap:16px;
 }
 
-.scroll__static {
+.scroll_static {
     composes: mr-4 from global;
 }
 
-.scroll__list {
+.scroll_list {
     overflow-y: auto;
     display: flex;
     flex-direction: column;
     gap: 16px;
 }
 
-.scroll__list::-webkit-scrollbar {
+.scroll_list::-webkit-scrollbar {
     width: 8px;
 }
 
-.scroll__list::-webkit-scrollbar-thumb {
+.scroll_list::-webkit-scrollbar-thumb {
     background-color: #8585AD;
 }
 
-.scroll__list::-webkit-scrollbar-track {
+.scroll_list::-webkit-scrollbar-track {
     background-color: #2F2F37;
 }
 
-.scroll__element {
+.scroll_element {
     composes: mr-2 from global;
     display: flex;
     align-items: center;

@@ -1,16 +1,17 @@
 import styles from './burger-ingredients.module.css';
-import CardIngredient from "../card-ingredients/card-ingredient.jsx";
+import { useMemo, useState } from 'react';
+import IngredientCard from '../ingredient-card/ingredient-card.jsx';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import {useMemo, useState} from "react";
-import PropTypes from "prop-types";
-import ingredientDataTypes from "../../propTypes/ingredientPropTypes";
+import ingredientDataTypes from '../../propTypes/ingredientPropsTypes.js';
+import { arrayOf } from 'prop-types';
 
-function BurgerIngredients({ data }) {
+
+function BurgerIngredients({ ingredients }) {
     const [activeTab, setActiveTab] = useState('bun');
 
-    const buns = useMemo(() => data.filter(item => item.type === 'bun'), [data]);
-    const mains = useMemo(() => data.filter(item => item.type === 'main'), [data]);
-    const sauces = useMemo(() => data.filter(item => item.type === 'sauce'), [data]);
+    const buns = useMemo(() => ingredients.filter(item => item.type === 'bun'), [ingredients]);
+    const mains = useMemo(() => ingredients.filter(item => item.type === 'main'), [ingredients]);
+    const sauces = useMemo(() => ingredients.filter(item => item.type === 'sauce'), [ingredients]);
 
     const handleActiveTab = (tabValue) => {
         setActiveTab(tabValue)
@@ -22,42 +23,42 @@ function BurgerIngredients({ data }) {
 
     return (
         <section className={styles.ingredients}>
-            <h1 className={styles.ingredients__header}>Соберите бургер</h1>
+            <h1 className={styles.header}>Соберите бургер</h1>
             <div className={styles.tabs}>
                 <Tab active={activeTab === 'bun' ? 'true' : null} value={'bun'} onClick={() => handleActiveTab('bun')}>Булки</Tab>
                 <Tab active={activeTab === 'sauce' ? 'true' : null} value={'sauce'} onClick={() => handleActiveTab('sauce')}>Соусы</Tab>
                 <Tab active={activeTab === 'main' ? 'true' : null} value={'main'} onClick={() => handleActiveTab('main')}>Начинки</Tab>
             </div>
             <div className={styles.scroll_container}>
-                <h2 id="bun" className={styles.cards__header}>Булки</h2>
+                <h2 id="bun" className={styles.cards_header}>Булки</h2>
                 <div className={styles.cards}>
                     {buns.map(bun => {
                         return (
-                            <CardIngredient
+                            <IngredientCard
                                 key={bun._id}
-                                card={bun}
+                                ingredient={bun}
                             />
                         )}
                     )}
                 </div>
-                <h2 id="sauce" className={styles.cards__header}>Соусы</h2>
+                <h2 id="sauce" className={styles.cards_header}>Соусы</h2>
                 <div className={styles.cards}>
                     {mains.map(main => {
                         return (
-                            <CardIngredient
+                            <IngredientCard
                                 key={main._id}
-                                card={main}
+                                ingredient={main}
                             />
                         )}
                     )}
                 </div>
-                <h2 id="main" className={styles.cards__header}>Начинки</h2>
+                <h2 id="main" className={styles.cards_header}>Начинки</h2>
                 <div className={styles.cards}>
                     {sauces.map(sauce => {
                         return (
-                            <CardIngredient
+                            <IngredientCard
                                 key={sauce._id}
-                                card={sauce}
+                                ingredient={sauce}
                             />
                         )}
                     )}
@@ -68,7 +69,7 @@ function BurgerIngredients({ data }) {
 }
 
 BurgerIngredients.propTypes = {
-    data: PropTypes.arrayOf(ingredientDataTypes).isRequired
+    ingredients: arrayOf(ingredientDataTypes).isRequired
 }
 
 export default BurgerIngredients;

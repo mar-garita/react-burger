@@ -15,20 +15,6 @@
     align-items: center;
 }
 
-.counter {
-    composes: text text_type_digits-default from global;
-    width: 32px;
-    height: 32px;
-    background-color: #4C4CFF;
-    border-radius: 50%;
-    position: absolute;
-    top: 0;
-    right: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .price {
     composes: text text_type_digits-default mt-1 mb-1 mr-2 from global;
     text-align: center;

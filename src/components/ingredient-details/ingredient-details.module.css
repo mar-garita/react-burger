@@ -1,0 +1,40 @@
+.details {
+    width: 520px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.image {
+    height: 240px;
+}
+
+.name {
+    composes: mt-3 mb-1 text text_type_main-medium from global;
+    height: 60px;
+    text-align: center;
+}
+
+.info {
+    composes: text text_type_main-default text_color_inactive from global;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+}
+
+.nutrition {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.element {
+    margin: 0;
+}
+
+.count {
+    composes: mt-2 text text_type_digits-default from global;
+}

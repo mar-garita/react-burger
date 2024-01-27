@@ -1,14 +1,19 @@
 import styles from './burger-constructor.module.css';
 import { ConstructorElement, Button, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
-import ingredientDataTypes from "../../propTypes/ingredientPropTypes.js";
+import ModalOrderDetails from '../modal-order-details/modal-order-details.jsx';
+import useModal from '../../hooks/useModal.js';
+import ingredientDataTypes from '../../propTypes/ingredientPropsTypes.js';
+import { arrayOf } from 'prop-types';
 
-function BurgerConstructor({ data }) {
+
+
+function BurgerConstructor({ ingredients }) {
+    const [isOpen, onOpenModal, onCloseModal] = useModal(false);
 
     return (
         <section className={styles.constructor}>
             <div className={styles.scroll}>
-                <div className={styles.scroll__static}>
+                <div className={styles.scroll_static}>
                     <ConstructorElement
                         type="top"
                         isLocked={true}
@@ -17,11 +22,11 @@ function BurgerConstructor({ data }) {
                         thumbnail="https://code.s3.yandex.net/react/code/bun-02-mobile.png"
                     />
                 </div>
-                <div className={styles.scroll__list}>
-                    {data.map((ingredient => {
+                <div className={styles.scroll_list}>
+                    {ingredients.map((ingredient => {
                         if (ingredient.type !== 'bun') {
                             return (
-                                <div key={ingredient._id} className={styles.scroll__element}>
+                                <div key={ingredient._id} className={styles.scroll_element}>
                                     <DragIcon type="primary" />
                                     <ConstructorElement
                                         text={ingredient.name}
@@ -33,7 +38,7 @@ function BurgerConstructor({ data }) {
                         })
                     )}
                 </div>
-                <div className={styles.scroll__static}>
+                <div className={styles.scroll_static}>
                     <ConstructorElement
                         type="bottom"
                         isLocked={true}
@@ -48,16 +53,22 @@ function BurgerConstructor({ data }) {
                     610
                     <CurrencyIcon type="primary" />
                 </span>
-                <Button htmlType="button" type="primary" size="large">
+                <Button onClick={onOpenModal} htmlType="button" type="primary" size="large">
                     Оформить заказ
                 </Button>
             </div>
+            {isOpen &&
+                <ModalOrderDetails
+                    onClose={onCloseModal}
+                    isOpen={isOpen}
+                />
+            }
         </section>
     )
 }
 
 BurgerConstructor.propTypes = {
-    data: PropTypes.arrayOf(ingredientDataTypes).isRequired
+    ingredients: arrayOf(ingredientDataTypes).isRequired
 }
 
 export default BurgerConstructor;

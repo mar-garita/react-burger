@@ -1,0 +1,20 @@
+.modal {
+    composes: pt-10 pr-10 pb-15 pl-10 from global;
+    width: 720px;
+    min-height: 538px;
+    box-sizing: border-box;
+    border-radius: 40px;
+    background-color: rgb(28, 28, 33);
+}
+
+.wrapper {
+    height: 64px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header {
+    composes: text text_type_main-large from global;
+    margin: 0;
+}

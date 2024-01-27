@@ -2,7 +2,7 @@
     max-width: 600px;
 }
 
-.ingredients__header {
+.header {
     composes: text text_type_main-large mt-10 mb-5 from global;
 }
 
@@ -36,7 +36,7 @@
     column-gap: 32px;
 }
 
-.cards__header {
+.cards_header {
     composes: pt-10 pb-6 from global;
     margin: 0;
 }
