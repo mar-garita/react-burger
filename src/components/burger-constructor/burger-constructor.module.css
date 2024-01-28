@@ -1,0 +1,57 @@
+.constructor {
+    composes: pt-25 pb-13 pl-4 from global;
+    max-width: 600px;
+}
+
+.scroll {
+    max-height: 655px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap:16px;
+}
+
+.scroll_static {
+    composes: mr-4 from global;
+}
+
+.scroll_list {
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.scroll_list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.scroll_list::-webkit-scrollbar-thumb {
+    background-color: #8585AD;
+}
+
+.scroll_list::-webkit-scrollbar-track {
+    background-color: #2F2F37;
+}
+
+.scroll_element {
+    composes: mr-2 from global;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.order {
+    composes: mt-10 mr-4 from global;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 40px;
+}
+
+.total {
+    composes: text text_type_digits-medium from global;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
