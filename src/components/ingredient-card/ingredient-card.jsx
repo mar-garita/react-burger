@@ -19,9 +19,9 @@ function IngredientCard({ ingredient }) {
             <p className={styles.name}>{ingredient.name}</p>
             {isOpen &&
                 <ModalIngredient
-                    onClose={onCloseModal}
-                    isOpen={isOpen}
                     ingredient={ingredient}
+                    isOpen={isOpen}
+                    onClose={onCloseModal}
                 />
             }
         </div>

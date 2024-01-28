@@ -1,4 +1,5 @@
 import Modal from '../modal/modal.jsx';
+import ModalOverlay from '../modal-overlay/modal-overlay.jsx';
 import OrderDetails from '../order-details/order-details.jsx';
 import PropTypes from 'prop-types';
 
@@ -6,9 +7,12 @@ import PropTypes from 'prop-types';
 function ModalOrderDetails({ isOpen, onClose }) {
 
     return (
-        <Modal isOpen={isOpen} onClose={onClose}>
-            <OrderDetails />
-        </Modal>
+        <>
+            <ModalOverlay isOpen={isOpen} onClose={onClose} />
+            <Modal isOpen={isOpen} onClose={onClose}>
+                <OrderDetails />
+            </Modal>
+        </>
     )
 }
 

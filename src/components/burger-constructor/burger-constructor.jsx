@@ -59,8 +59,8 @@ function BurgerConstructor({ ingredients }) {
             </div>
             {isOpen &&
                 <ModalOrderDetails
-                    onClose={onCloseModal}
                     isOpen={isOpen}
+                    onClose={onCloseModal}
                 />
             }
         </section>

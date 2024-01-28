@@ -1,11 +1,6 @@
-.overlay_closed {
-    visibility: hidden;
-}
-
-.overlay_opened {
+.overlay {
     width: 100%;
     height: 100vh;
-    visibility: visible;
     display: flex;
     align-items: center;
     justify-content: center;
