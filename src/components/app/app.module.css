@@ -1,4 +1,5 @@
 .main {
+    composes: pb-10 from global;
     max-width: 1280px;
     margin: 0 auto;
     display: grid;

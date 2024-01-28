@@ -23,10 +23,10 @@ function App() {
 
     return (
         <>
-            <AppHeader />
+            <AppHeader/>
             <main className={styles.main}>
                 <BurgerIngredients ingredients={dataIngredients}/>
-                <BurgerConstructor ingredients={dataIngredients} />
+                <BurgerConstructor ingredients={dataIngredients}/>
             </main>
         </>
     )
