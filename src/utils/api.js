@@ -12,7 +12,6 @@ export const getIngredientsData = async () => {
     return fetch(`${apiConfig.baseUrl}/api/ingredients`)
         .then(response => getResponseData(response))
         .then(data => { return data })
-        .catch(error => console.log(error))
 }
 
 export const sendOrderCreationRequest = async (orderData) => {
@@ -25,5 +24,4 @@ export const sendOrderCreationRequest = async (orderData) => {
     })
         .then(response => getResponseData(response))
         .then(data => { return data })
-        .catch(error => console.log(error))
 }

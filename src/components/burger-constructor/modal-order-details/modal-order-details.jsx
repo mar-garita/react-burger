@@ -1,7 +1,6 @@
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import Modal from '../../ui/modal/modal.jsx';
-import ModalOverlay from '../../ui/modal-overlay/modal-overlay.jsx';
 import OrderDetails from '../order-details/order-details.jsx';
 import { resetOrderNumber } from '../../../services/actions/orderDetailsAction.js';
 
@@ -15,12 +14,9 @@ function ModalOrderDetails({ isOpen, onClose }) {
     }
 
     return (
-        <>
-            <ModalOverlay isOpen={isOpen} onClose={closeOrderDetails} />
-            <Modal isOpen={isOpen} onClose={closeOrderDetails}>
-                <OrderDetails />
-            </Modal>
-        </>
+        <Modal isOpen={isOpen} onClose={closeOrderDetails}>
+            <OrderDetails />
+        </Modal>
     )
 }
 
