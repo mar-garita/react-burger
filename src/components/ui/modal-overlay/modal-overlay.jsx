@@ -1,12 +1,17 @@
 import styles from './modal-overlay.module.css';
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { deleteIngredientDetails } from '../../../services/actions/ingredientDetailsActions.js';
 
 
 function ModalOverlay({ isOpen, onClose }) {
+    const dispatch = useDispatch();
+
     useEffect(() => {
         const handleCloseEscape = (evt) => {
             if (evt.key === 'Escape') {
+                dispatch(deleteIngredientDetails());
                 onClose();
             }
         };
@@ -19,6 +24,7 @@ function ModalOverlay({ isOpen, onClose }) {
 
     const handleCloseOverlayClick = (evt) => {
         evt.stopPropagation();
+        dispatch(deleteIngredientDetails());
         onClose();
     };
 

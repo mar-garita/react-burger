@@ -7,7 +7,7 @@ function AppHeader() {
     const [isNavLinkHovered, setIsNavLinkHovered] = useState('');
 
     const handleMouseEnter = (linkName) => {
-        setIsNavLinkHovered(linkName)
+        setIsNavLinkHovered(linkName);
     }
 
     const handleMouseLeave = () => {

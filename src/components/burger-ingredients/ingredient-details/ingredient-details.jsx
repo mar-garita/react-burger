@@ -1,8 +1,10 @@
 import styles from './ingredient-details.module.css';
-import ingredientDataTypes from '../../propTypes/ingredientPropsTypes.js';
+import { useSelector } from "react-redux";
+import { getIngredientDetails } from '../../../services/selectors.js';
 
 
-function IngredientDetails({ ingredient }) {
+function IngredientDetails() {
+    const ingredient = useSelector(getIngredientDetails);
 
     return (
         <div className={styles.details}>
@@ -28,10 +30,6 @@ function IngredientDetails({ ingredient }) {
             </div>
         </div>
     );
-}
-
-IngredientDetails.propTypes = {
-    ingredient: ingredientDataTypes.isRequired
 }
 
 export default IngredientDetails;
