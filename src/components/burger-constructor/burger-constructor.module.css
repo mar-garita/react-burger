@@ -43,6 +43,7 @@
 .constructor_element {
     display: flex;
     justify-content: end;
+    align-items: center;
     width: 100%;
     gap: 8px;
 }

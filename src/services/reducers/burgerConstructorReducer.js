@@ -3,6 +3,7 @@ import {
     ADD_INGREDIENT_TO_CONSTRUCTOR,
     DELETE_INGREDIENT_FROM_CONSTRUCTOR,
     MOVE_INGREDIENT,
+    RESET_CONSTRUCTOR,
 } from '../actions/burgerConstructorActions.js';
 
 
@@ -50,6 +51,8 @@ export const burgerConstructorReducer = (state = initialState, action) => {
             newIngredients.splice(hoverIndex, 0, dragElement);
             return { ...state, ingredients: newIngredients };
         }
+        case RESET_CONSTRUCTOR:
+            return initialState;
         default: {
             return state;
         }

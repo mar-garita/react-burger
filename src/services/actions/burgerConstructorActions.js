@@ -5,6 +5,7 @@ export const ADD_BUN_TO_CONSTRUCTOR = 'ADD_BUN_TO_CONSTRUCTOR';
 export const ADD_INGREDIENT_TO_CONSTRUCTOR = 'ADD_INGREDIENT_TO_CONSTRUCTOR';
 export const DELETE_INGREDIENT_FROM_CONSTRUCTOR = 'DELETE_INGREDIENT_FROM_CONSTRUCTOR';
 export const MOVE_INGREDIENT = 'MOVE_INGREDIENT';
+export const RESET_CONSTRUCTOR = 'RESET_CONSTRUCTOR';
 
 
 export const addBunToConstructor = (ingredient) => {
@@ -26,3 +27,7 @@ export const deleteIngredientFromConstructor = (id, uuid) => {
 export const moveIngredient = (dragIndex, hoverIndex) => {
    return { type: MOVE_INGREDIENT, payload: { dragIndex, hoverIndex } }
 };
+
+export const resetConstructor = () => {
+    return { type: RESET_CONSTRUCTOR };
+}

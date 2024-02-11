@@ -4,7 +4,7 @@ import { useDrag, useDrop } from 'react-dnd';
 import PropTypes from 'prop-types';
 
 
-function DraggableElement({ children, index, moveElement }) {
+function DraggableElement({ children, index, moveElement, className }) {
     const ref = useRef(null);
 
     const [{ isDragging}, drag] = useDrag({
@@ -61,8 +61,10 @@ function DraggableElement({ children, index, moveElement }) {
     // Это делает элемент источником для перетаскивания и целью для принятия перетаскиваемых элементов
     drag(drop(ref));
 
+    const elementClassName = isDragging ? `${styles.invisible}` : `${styles.visible}`
+
     return (
-        <div ref={ref} className={isDragging ? `${styles.invisible}` : `${styles.visible}`}>
+        <div ref={ref} className={`${className} ${elementClassName}`}>
             {children}
         </div>
     )
@@ -72,6 +74,7 @@ DraggableElement.propTypes = {
     children: PropTypes.node.isRequired,
     index: PropTypes.number.isRequired,
     moveElement: PropTypes.func.isRequired,
+    className: PropTypes.string,
 }
 
 export default DraggableElement;

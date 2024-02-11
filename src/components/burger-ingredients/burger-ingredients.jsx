@@ -70,24 +70,24 @@ function BurgerIngredients() {
                 </div>
                 <h2 id="sauce" className={styles.cards_header}>Соусы</h2>
                 <div className={styles.cards}>
-                    {mains.map(main => {
-                        return (
-                            <IngredientCard
-                                key={main._id}
-                                ingredient={{...main}}
-                                count={ingredientCounts[main._id] || 0}
-                            />
-                        )}
-                    )}
-                </div>
-                <h2 id="main" className={styles.cards_header}>Начинки</h2>
-                <div className={styles.cards}>
                     {sauces.map(sauce => {
                         return (
                             <IngredientCard
                                 key={sauce._id}
                                 ingredient={{...sauce}}
                                 count={ingredientCounts[sauce._id] || 0}
+                            />
+                        )}
+                    )}
+                </div>
+                <h2 id="main" className={styles.cards_header}>Начинки</h2>
+                <div className={styles.cards}>
+                    {mains.map(main => {
+                        return (
+                            <IngredientCard
+                                key={main._id}
+                                ingredient={{...main}}
+                                count={ingredientCounts[main._id] || 0}
                             />
                         )}
                     )}

@@ -1,4 +1,5 @@
 import { sendOrderCreationRequest } from '../../utils/api.js';
+import { resetConstructor } from './burgerConstructorActions.js';
 
 
 export const POST_ORDER_REQUEST = 'POST_ORDER_REQUEST';
@@ -24,6 +25,7 @@ export const dispatchOrderCreationRequest = (data) => {
                     type: POST_ORDER_SUCCESS,
                     payload: result.order.number
                 });
+                dispatch(resetConstructor());
 
             } catch (error) {
                 dispatch({

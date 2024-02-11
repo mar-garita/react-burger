@@ -1,6 +1,11 @@
 import { apiConfig } from './api-config.js';
 
 
+const request = (endpoint, options) => {
+    const url = `${apiConfig.baseUrl}${endpoint}`;
+    return fetch(url, options).then(getResponseData);
+}
+
 const getResponseData = (response) => {
     if (!response.ok) {
         return Promise.reject(`Ошибка: ${response.status}`);
@@ -9,19 +14,15 @@ const getResponseData = (response) => {
 }
 
 export const getIngredientsData = async () => {
-    return fetch(`${apiConfig.baseUrl}/api/ingredients`)
-        .then(response => getResponseData(response))
-        .then(data => { return data })
+    return request('/api/ingredients');
 }
 
 export const sendOrderCreationRequest = async (orderData) => {
-    return fetch(`${apiConfig.baseUrl}/api/orders`, {
+    return request('/api/orders', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({"ingredients": orderData}),
-    })
-        .then(response => getResponseData(response))
-        .then(data => { return data })
+        body: JSON.stringify({'ingredients': orderData}),
+    });
 }

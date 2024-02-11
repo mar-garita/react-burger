@@ -77,7 +77,7 @@ function BurgerConstructor() {
                             <ConstructorElement
                                 type="top"
                                 isLocked={true}
-                                text={bun.name}
+                                text={`${bun.name} (верх)`}
                                 price={bun.price}
                                 thumbnail={bun.image}
                             />
@@ -95,7 +95,7 @@ function BurgerConstructor() {
                             <ConstructorElement
                                 type="bottom"
                                 isLocked={true}
-                                text={bun.name}
+                                text={`${bun.name} (низ)`}
                                 price={bun.price}
                                 thumbnail={bun.image}
                             />
@@ -103,15 +103,19 @@ function BurgerConstructor() {
                     }
                 </div>
             </div>
-            <div className={styles.order}>
-                <span className={styles.total}>
-                    {totalPrice}
-                    <CurrencyIcon type="primary"/>
-                </span>
-                <Button onClick={() => createOrder(ingredients)} htmlType="button" type="primary" size="large">
-                    Оформить заказ
-                </Button>
-            </div>
+            {isLoading ? <Loader /> :
+                <div className={styles.order}>
+                    <span className={styles.total}>
+                        {totalPrice}
+                        <CurrencyIcon type="primary"/>
+                    </span>
+                    <Button htmlType="button" type="primary" size="large" disabled={!bun && true}
+                            onClick={() => createOrder(ingredients)}
+                    >
+                        Оформить заказ
+                    </Button>
+                </div>
+            }
             {isOpen && orderNumber &&
                 <ModalOrderDetails
                     isOpen={isOpen}
