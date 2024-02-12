@@ -1,17 +1,43 @@
 import styles from './burger-ingredients.module.css';
-import { useMemo, useState } from 'react';
-import IngredientCard from '../ingredient-card/ingredient-card.jsx';
+import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import ingredientDataTypes from '../../propTypes/ingredientPropsTypes.js';
-import { arrayOf } from 'prop-types';
+import IngredientCard from './ingredient-card/ingredient-card.jsx';
+import { getBuns, getMains, getSauces, getBunCounts, getIngredientCounts } from '../../services/selectors.js';
 
 
-function BurgerIngredients({ ingredients }) {
+function BurgerIngredients() {
+    const buns = useSelector(getBuns);
+    const mains = useSelector(getMains);
+    const sauces = useSelector(getSauces);
+
+    const bunCounts = useSelector(getBunCounts);
+    const ingredientCounts = useSelector(getIngredientCounts);
+
     const [activeTab, setActiveTab] = useState('bun');
+    const sections = ['bun', 'sauce', 'main'];
 
-    const buns = useMemo(() => ingredients.filter(item => item.type === 'bun'), [ingredients]);
-    const mains = useMemo(() => ingredients.filter(item => item.type === 'main'), [ingredients]);
-    const sauces = useMemo(() => ingredients.filter(item => item.type === 'sauce'), [ingredients]);
+    useEffect(() => {
+        const handleScroll = () => {
+            const offset = 300; // смещение в пикселях
+
+            sections.forEach((sectionId) => {
+                const section = document.getElementById(sectionId);
+                const rect = section.getBoundingClientRect();
+
+                if (rect.top <= offset) {
+                    setActiveTab(sectionId);
+                }
+            });
+        };
+
+        const scrollContainer = document.getElementById('scroll_container');
+        scrollContainer.addEventListener('scroll', handleScroll);
+
+        return () => {
+            scrollContainer.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
 
     const handleActiveTab = (tabValue) => {
         setActiveTab(tabValue)
@@ -29,36 +55,39 @@ function BurgerIngredients({ ingredients }) {
                 <Tab active={activeTab === 'sauce' ? 'true' : null} value={'sauce'} onClick={() => handleActiveTab('sauce')}>Соусы</Tab>
                 <Tab active={activeTab === 'main' ? 'true' : null} value={'main'} onClick={() => handleActiveTab('main')}>Начинки</Tab>
             </div>
-            <div className={styles.scroll_container}>
+            <div id='scroll_container' className={styles.scroll_container}>
                 <h2 id="bun" className={styles.cards_header}>Булки</h2>
                 <div className={styles.cards}>
                     {buns.map(bun => {
                         return (
                             <IngredientCard
                                 key={bun._id}
-                                ingredient={bun}
+                                ingredient={{...bun}}
+                                count={bunCounts[bun._id] || 0}
                             />
                         )}
                     )}
                 </div>
                 <h2 id="sauce" className={styles.cards_header}>Соусы</h2>
                 <div className={styles.cards}>
-                    {mains.map(main => {
+                    {sauces.map(sauce => {
                         return (
                             <IngredientCard
-                                key={main._id}
-                                ingredient={main}
+                                key={sauce._id}
+                                ingredient={{...sauce}}
+                                count={ingredientCounts[sauce._id] || 0}
                             />
                         )}
                     )}
                 </div>
                 <h2 id="main" className={styles.cards_header}>Начинки</h2>
                 <div className={styles.cards}>
-                    {sauces.map(sauce => {
+                    {mains.map(main => {
                         return (
                             <IngredientCard
-                                key={sauce._id}
-                                ingredient={sauce}
+                                key={main._id}
+                                ingredient={{...main}}
+                                count={ingredientCounts[main._id] || 0}
                             />
                         )}
                     )}
@@ -66,10 +95,6 @@ function BurgerIngredients({ ingredients }) {
             </div>
         </section>
     )
-}
-
-BurgerIngredients.propTypes = {
-    ingredients: arrayOf(ingredientDataTypes).isRequired
 }
 
 export default BurgerIngredients;

@@ -3,16 +3,22 @@
     max-width: 600px;
 }
 
+.header {
+    composes: mt-10 mb-10 text text_type_main-medium from global;
+    text-align: center;
+}
+
 .scroll {
+    max-height: 655px;
+    min-height: 150px;
+}
+
+.scroll_wrapper {
     max-height: 655px;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     gap:16px;
-}
-
-.scroll_static {
-    composes: mr-4 from global;
 }
 
 .scroll_list {
@@ -34,15 +40,16 @@
     background-color: #2F2F37;
 }
 
-.scroll_element {
-    composes: mr-2 from global;
+.constructor_element {
     display: flex;
+    justify-content: end;
     align-items: center;
+    width: 100%;
     gap: 8px;
 }
 
 .order {
-    composes: mt-10 mr-4 from global;
+    composes: mt-10 mr-2 from global;
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -54,4 +61,14 @@
     display: flex;
     align-items: center;
     gap: 8px;
+}
+
+.loader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.loader_text {
+    composes: text text_type_main-default from global;
 }

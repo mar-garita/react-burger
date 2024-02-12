@@ -1,63 +1,122 @@
 import styles from './burger-constructor.module.css';
 import { ConstructorElement, Button, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import ModalOrderDetails from '../modal-order-details/modal-order-details.jsx';
+import { useDrop } from 'react-dnd';
+import { useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import useModal from '../../hooks/useModal.js';
-import ingredientDataTypes from '../../propTypes/ingredientPropsTypes.js';
-import { arrayOf } from 'prop-types';
+import DraggableElement from './draggable-element/draggable-element.jsx';
+import Loader from '../ui/loader/loader.jsx';
+import ModalOrderDetails from './modal-order-details/modal-order-details.jsx';
+import { getConstructorIngredients, getConstructorBun, getOrderNumber, getTotalPrice, createOrderIsLoading } from '../../services/selectors.js';
+import { dispatchOrderCreationRequest } from '../../services/actions/orderDetailsAction.js';
+import {
+    addBunToConstructor,
+    addIngredientToConstructor,
+    deleteIngredientFromConstructor,
+    moveIngredient,
+} from '../../services/actions/burgerConstructorActions.js';
 
 
-
-function BurgerConstructor({ ingredients }) {
+function BurgerConstructor() {
     const [isOpen, onOpenModal, onCloseModal] = useModal(false);
+    const dispatch = useDispatch();
+
+    const ingredients = useSelector(getConstructorIngredients);
+    const bun = useSelector(getConstructorBun);
+    const totalPrice = useSelector(getTotalPrice);
+    const orderNumber = useSelector(getOrderNumber);
+    const isLoading = useSelector(createOrderIsLoading);
+
+    const [, dropRef] = useDrop({
+        accept: "ingredient", // тип принимаемого элемента
+        drop(ingredient) {
+            if (ingredient.type === 'bun') {
+                dispatch(addBunToConstructor(ingredient));
+            } else {
+                dispatch(addIngredientToConstructor(ingredient));
+            }
+        }
+    });
+
+    const deleteIngredient = (id, uuid) => {
+        dispatch(deleteIngredientFromConstructor(id, uuid));
+    }
+
+    const createOrder = (data) => {
+        dispatch(dispatchOrderCreationRequest(data));
+        onOpenModal();
+    }
+
+    // Меняет местами элементы при перетаскивании
+    const moveConstructorIngredient = (dragIndex, hoverIndex) => {
+        dispatch(moveIngredient(dragIndex, hoverIndex));
+    }
+
+    const renderElements = useCallback((ingredient, index) => {
+        return (
+            <div key={ingredient.uuid}>
+                <DraggableElement index={index} moveElement={moveConstructorIngredient} className={styles.constructor_element}>
+                    <DragIcon type="primary"/>
+                    <ConstructorElement
+                        text={ingredient.name}
+                        price={ingredient.price}
+                        thumbnail={ingredient.image}
+                        handleClose={() => deleteIngredient(ingredient._id, ingredient.uuid)}
+                    />
+                </DraggableElement>
+            </div>
+        )
+    }, [])
 
     return (
         <section className={styles.constructor}>
-            <div className={styles.scroll}>
-                <div className={styles.scroll_static}>
-                    <ConstructorElement
-                        type="top"
-                        isLocked={true}
-                        text="Краторная булка N-200i (верх)"
-                        price={200}
-                        thumbnail="https://code.s3.yandex.net/react/code/bun-02-mobile.png"
-                    />
-                </div>
-                <div className={styles.scroll_list}>
-                    {ingredients.map((ingredient => {
-                        if (ingredient.type !== 'bun') {
-                            return (
-                                <div key={ingredient._id} className={styles.scroll_element}>
-                                    <DragIcon type="primary" />
-                                    <ConstructorElement
-                                        text={ingredient.name}
-                                        thumbnail={ingredient.image}
-                                        price={ingredient.price}
-                                    />
-                                </div>
-                            )}
-                        })
-                    )}
-                </div>
-                <div className={styles.scroll_static}>
-                    <ConstructorElement
-                        type="bottom"
-                        isLocked={true}
-                        text="Краторная булка N-200i (низ)"
-                        price={200}
-                        thumbnail="https://code.s3.yandex.net/react/code/bun-02-mobile.png"
-                    />
+            <div ref={dropRef} className={styles.scroll}>
+                <div className={styles.scroll_wrapper}>
+                    {bun &&
+                        <div className={styles.constructor_element}>
+                            <ConstructorElement
+                                type="top"
+                                isLocked={true}
+                                text={`${bun.name} (верх)`}
+                                price={bun.price}
+                                thumbnail={bun.image}
+                            />
+                        </div>
+                    }
+                    <div className={styles.scroll_list}>
+                        {ingredients.map(((ingredient, index) => {
+                            if (ingredient.type !== 'bun') {
+                                return renderElements(ingredient, index)
+                            }
+                        }))}
+                    </div>
+                    {bun &&
+                        <div className={styles.constructor_element}>
+                            <ConstructorElement
+                                type="bottom"
+                                isLocked={true}
+                                text={`${bun.name} (низ)`}
+                                price={bun.price}
+                                thumbnail={bun.image}
+                            />
+                        </div>
+                    }
                 </div>
             </div>
-            <div className={styles.order}>
-                <span className={styles.total}>
-                    610
-                    <CurrencyIcon type="primary" />
-                </span>
-                <Button onClick={onOpenModal} htmlType="button" type="primary" size="large">
-                    Оформить заказ
-                </Button>
-            </div>
-            {isOpen &&
+            {isLoading ? <Loader /> :
+                <div className={styles.order}>
+                    <span className={styles.total}>
+                        {totalPrice}
+                        <CurrencyIcon type="primary"/>
+                    </span>
+                    <Button htmlType="button" type="primary" size="large" disabled={!bun && true}
+                            onClick={() => createOrder(ingredients)}
+                    >
+                        Оформить заказ
+                    </Button>
+                </div>
+            }
+            {isOpen && orderNumber &&
                 <ModalOrderDetails
                     isOpen={isOpen}
                     onClose={onCloseModal}
@@ -65,10 +124,6 @@ function BurgerConstructor({ ingredients }) {
             }
         </section>
     )
-}
-
-BurgerConstructor.propTypes = {
-    ingredients: arrayOf(ingredientDataTypes).isRequired
 }
 
 export default BurgerConstructor;

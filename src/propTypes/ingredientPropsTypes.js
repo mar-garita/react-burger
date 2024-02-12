@@ -11,7 +11,7 @@ const ingredientDataTypes = PropTypes.shape({
     proteins: PropTypes.number.isRequired,
     fat: PropTypes.number.isRequired,
     image_large: PropTypes.string.isRequired,
-    image_mobile: PropTypes.string.isRequired
+    image_mobile: PropTypes.string.isRequired,
 });
 
 export default ingredientDataTypes;

@@ -22,7 +22,7 @@
 }
 
 .scroll_container::-webkit-scrollbar-thumb {
-    background-color: #8585AD;
+    color: #8585AD;
 }
 
 .scroll_container::-webkit-scrollbar-track {
