@@ -1,0 +1,3 @@
+.title {
+    composes: mt-5 text text_type_main-small from global;
+}

@@ -26,7 +26,6 @@ export const dispatchOrderCreationRequest = (data) => {
                     payload: result.order.number
                 });
                 dispatch(resetConstructor());
-
             } catch (error) {
                 dispatch({
                     type: POST_ORDER_FAILED,

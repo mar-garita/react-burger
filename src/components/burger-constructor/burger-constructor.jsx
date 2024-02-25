@@ -2,24 +2,34 @@ import styles from './burger-constructor.module.css';
 import { ConstructorElement, Button, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrop } from 'react-dnd';
 import { useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import useModal from '../../hooks/useModal.js';
 import DraggableElement from './draggable-element/draggable-element.jsx';
-import Loader from '../ui/loader/loader.jsx';
+import ModalCreateOrder from './modal-create-order/modal-create-order.jsx';
 import ModalOrderDetails from './modal-order-details/modal-order-details.jsx';
-import { getConstructorIngredients, getConstructorBun, getOrderNumber, getTotalPrice, createOrderIsLoading } from '../../services/selectors.js';
 import { dispatchOrderCreationRequest } from '../../services/actions/orderDetailsAction.js';
+import { getUser } from '../../services/selectors.js';
 import {
     addBunToConstructor,
     addIngredientToConstructor,
     deleteIngredientFromConstructor,
     moveIngredient,
 } from '../../services/actions/burgerConstructorActions.js';
+import {
+    createOrderIsLoading,
+    getConstructorBun,
+    getConstructorIngredients,
+    getOrderNumber,
+    getTotalPrice
+} from '../../services/selectors.js';
 
 
 function BurgerConstructor() {
-    const [isOpen, onOpenModal, onCloseModal] = useModal(false);
+    const { isOpen, onOpenModal, onCloseModal } = useModal(false);
     const dispatch = useDispatch();
+    const user = useSelector(getUser);
+    const navigate = useNavigate();
 
     const ingredients = useSelector(getConstructorIngredients);
     const bun = useSelector(getConstructorBun);
@@ -43,8 +53,13 @@ function BurgerConstructor() {
     }
 
     const createOrder = (data) => {
-        dispatch(dispatchOrderCreationRequest(data));
-        onOpenModal();
+        if (!user) {
+            navigate('/login');
+        } else {
+            const dataWithBuns = [...data, bun, bun];
+            dispatch(dispatchOrderCreationRequest(dataWithBuns));
+            onOpenModal();
+        }
     }
 
     // Меняет местами элементы при перетаскивании
@@ -103,7 +118,7 @@ function BurgerConstructor() {
                     }
                 </div>
             </div>
-            {isLoading ? <Loader /> :
+            {isLoading ? <ModalCreateOrder isOpen={isOpen} onClose={onCloseModal} /> :
                 <div className={styles.order}>
                     <span className={styles.total}>
                         {totalPrice}

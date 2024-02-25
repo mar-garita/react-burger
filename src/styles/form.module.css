@@ -1,0 +1,46 @@
+.form_wrapper {
+    max-width: 480px;
+    margin: 180px auto 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+}
+
+.form_title {
+    composes: mt-0 mb-6 text text_type_main-medium from global;
+}
+
+.text {
+    composes: mt-20 text text_type_main-default text_color_inactive from global;
+}
+
+.wrap_text {
+    composes: text;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.login_text {
+    margin: 0;
+}
+
+.wrap_buttons {
+    width: 100%;
+    min-height: 56px;
+    display: flex;
+    justify-content: end;
+}
+
+.button_secondary {
+    composes: ml-2 from global;
+    padding: 0;
+}

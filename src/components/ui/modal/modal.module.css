@@ -1,7 +1,6 @@
 .modal {
     composes: pt-10 pr-10 pb-15 pl-10 from global;
-    width: 720px;
-    min-height: 538px;
+    max-width: 720px;
     box-sizing: border-box;
     border-radius: 40px;
     background-color: rgb(28, 28, 33);

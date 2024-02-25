@@ -4,14 +4,13 @@ import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import useModal from '../../../hooks/useModal.js';
-import ModalIngredient from '../modal-ingredient/modal-ingredient.jsx';
 import ingredientDataTypes from '../../../propTypes/ingredientPropsTypes.js';
 import { addIngredientDetails } from '../../../services/actions/ingredientDetailsActions.js';
 
 
 function IngredientCard({ ingredient, count }) {
     const dispatch = useDispatch();
-    const [isOpen, onOpenModal, onCloseModal] = useModal(false);
+    const { onOpenModal }  = useModal();
 
     const [, dragRef] = useDrag({
         type: "ingredient",  // тип перетаскиваемого элемента
@@ -34,12 +33,6 @@ function IngredientCard({ ingredient, count }) {
                 </div>
                 <p className={styles.name}>{ingredient.name}</p>
             </div>
-            {isOpen &&
-                <ModalIngredient
-                    isOpen={isOpen}
-                    onClose={onCloseModal}
-                />
-            }
         </>
     )
 }

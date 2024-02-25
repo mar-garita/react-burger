@@ -1,36 +1,61 @@
-import styles from './app.module.css';
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
+import { useDispatch } from 'react-redux';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import AppHeader from '../app-header/app-header.jsx';
-import BurgerIngredients from '../burger-ingredients/burger-ingredients.jsx';
-import BurgerConstructor from '../burger-constructor/burger-constructor.jsx';
-import Loader from '../ui/loader/loader.jsx';
-import { pageIsLoading } from '../../services/selectors.js';
+import { OnlyAuth } from '../protected-route/protected-route.jsx';
+import { OnlyUnAuth } from '../protected-route/protected-route.jsx';
+import {
+    EditProfile,
+    ForgotPasswordPage,
+    HomePage,
+    IngredientPage,
+    LoginPage,
+    ModalIngredient,
+    NotFound404,
+    OrdersHistory,
+    OrdersPage,
+    Profile,
+    RegistrationPage,
+    ResetPasswordPage
+} from '../../pages/index.jsx';
+import { fetchUserDetails } from '../../services/actions/authActions.js';
 import { fetchIngredients } from '../../services/actions/ingredientsActions.js';
 
 
 function App() {
     const dispatch = useDispatch();
-    const isLoading = useSelector(pageIsLoading);
+    const location = useLocation();
 
     useEffect( () => {
         dispatch(fetchIngredients());
-    }, [dispatch]);
+        dispatch(fetchUserDetails());
+    }, [])
+
+    const state = location.state;
 
     return (
         <>
             <AppHeader/>
-            {isLoading ?
-                <Loader /> :
-                <DndProvider backend={HTML5Backend}>
-                    <main className={styles.main}>
-                        <BurgerIngredients />
-                        <BurgerConstructor />
-                    </main>
-                </DndProvider>
-            }
+            <Routes location={state?.backgroundLocation || location}>
+                <Route path='/' element={<HomePage />} />
+                <Route path='/login' element={<OnlyUnAuth component={<LoginPage />} />} />
+                <Route path='/register' element={<OnlyUnAuth component={<RegistrationPage />} />} />
+                <Route path='/forgot-password' element={<OnlyUnAuth component={<ForgotPasswordPage />} />} />
+                <Route path='/reset-password' element={<OnlyUnAuth component={<ResetPasswordPage />} />} />
+                <Route path='/orders' element={<OnlyAuth component={<OrdersPage />} />} />
+                <Route path='/profile' element={<OnlyAuth component={<Profile />} />} >
+                    <Route index element={<OnlyAuth component={<EditProfile />} />} />
+                    <Route path='orders' element={<OnlyAuth component={<OrdersHistory />} />} />
+                </Route>
+                <Route path={'/ingredients/:id'} element={<IngredientPage />} />
+                <Route path='*' element={<NotFound404 />} />
+            </Routes>
+
+            {state?.backgroundLocation && (
+                <Routes>
+                    <Route path='/ingredients/:id' element={<ModalIngredient />} />
+                </Routes>
+            )}
         </>
     )
 }
