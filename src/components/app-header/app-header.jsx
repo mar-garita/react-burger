@@ -1,54 +1,49 @@
 import styles from './app-header.module.css';
-import { useState } from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { BurgerIcon, ListIcon, Logo, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { authChecked, getUser } from '../../services/selectors.js';
 
 
 function AppHeader() {
-    const [isNavLinkHovered, setIsNavLinkHovered] = useState('');
-
-    const handleMouseEnter = (linkName) => {
-        setIsNavLinkHovered(linkName);
-    }
-
-    const handleMouseLeave = () => {
-        setIsNavLinkHovered('');
-    }
+    const user = useSelector(getUser);
+    const isAuthChecked = useSelector(authChecked);
+    const location = useLocation();
+    const currentRoute = location.pathname;
 
     return (
         <header className={styles.header}>
             <div className={styles.wrapper}>
                 <nav className={styles.navigation}>
-                    <a href="#"
-                       onMouseEnter={() => handleMouseEnter('constructor')}
-                       onMouseLeave={handleMouseLeave}
-                       className={isNavLinkHovered === 'constructor' ? `${styles.link_active}` : `${styles.link_inactive}`}
+                    <NavLink
+                        to='/'
+                        className={currentRoute === '/' ? `${styles.link_active}` : `${styles.link_inactive}`}
                     >
-                        <BurgerIcon type={isNavLinkHovered === 'constructor' ? "primary" : "secondary"} />
+                        <BurgerIcon type={currentRoute === '/' ? 'primary' : 'secondary'} />
                         Конструктор
-                    </a>
-
-                    <a href="#"
-                       onMouseEnter={() => handleMouseEnter('order-list')}
-                       onMouseLeave={handleMouseLeave}
-                       className={isNavLinkHovered === 'order-list' ? `${styles.link_active}` : `${styles.link_inactive}`}
+                    </NavLink>
+                    <NavLink
+                        to='/orders'
+                        className={currentRoute === '/orders' ? `${styles.link_active}` : `${styles.link_inactive}`}
                     >
-                        <ListIcon type={isNavLinkHovered === 'order-list' ? "primary" : "secondary"} />
+                        <ListIcon type={currentRoute === '/orders' ? 'primary' : 'secondary'} />
                         Лента заказов
-                    </a>
+                    </NavLink>
                 </nav>
-                <div className={styles.logo}>
+                <NavLink to='/' className={styles.logo}>
                     <Logo />
-                </div>
-                <div className={styles.profile}>
-                    <a href="#"
-                       onMouseEnter={() => handleMouseEnter('profile')}
-                       onMouseLeave={handleMouseLeave}
-                       className={isNavLinkHovered === 'profile' ? `${styles.link_active}` : `${styles.link_inactive}`}
+                </NavLink>
+                <nav className={styles.profile}>
+                    <NavLink
+                        to='/profile'
+                        className={currentRoute.startsWith('/profile') ? `${styles.link_active}` : `${styles.link_inactive}`}
                     >
-                        <ProfileIcon type={isNavLinkHovered === 'profile' ? "primary" : "secondary"} />
-                        Личный кабинет
-                    </a>
-                </div>
+                        <ProfileIcon type={currentRoute.startsWith('/profile') ? "primary" : "secondary"} />
+                        {!isAuthChecked ? null :
+                         user ? user.name : 'Личный кабинет'
+                        }
+                    </NavLink>
+                </nav>
             </div>
         </header>
     )

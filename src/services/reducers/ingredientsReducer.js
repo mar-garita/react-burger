@@ -26,7 +26,7 @@ export const ingredientsReducer = (state = initialState, action) => {
             return { ...state, ingredients: action.payload, isLoading: false }
         }
         case (GET_INGREDIENTS_FAILED): {
-            return { ...state, error:action.payload, isLoading: false }
+            return { ...state, error: action.payload, isLoading: false }
         }
         case (SET_BUNS): {
                 return { ...state, buns: action.payload }

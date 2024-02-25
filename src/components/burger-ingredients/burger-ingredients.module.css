@@ -29,6 +29,11 @@
     background-color: #2F2F37;
 }
 
+.link {
+    text-decoration: none;
+    color: #F2F2F3;
+}
+
 .cards {
     display: grid;
     grid-template-columns: repeat(2, auto);

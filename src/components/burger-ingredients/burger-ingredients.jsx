@@ -1,12 +1,14 @@
 import styles from './burger-ingredients.module.css';
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientCard from './ingredient-card/ingredient-card.jsx';
 import { getBuns, getMains, getSauces, getBunCounts, getIngredientCounts } from '../../services/selectors.js';
 
 
 function BurgerIngredients() {
+    const location = useLocation();
     const buns = useSelector(getBuns);
     const mains = useSelector(getMains);
     const sauces = useSelector(getSauces);
@@ -51,20 +53,44 @@ function BurgerIngredients() {
         <section className={styles.ingredients}>
             <h1 className={styles.header}>Соберите бургер</h1>
             <div className={styles.tabs}>
-                <Tab active={activeTab === 'bun' ? 'true' : null} value={'bun'} onClick={() => handleActiveTab('bun')}>Булки</Tab>
-                <Tab active={activeTab === 'sauce' ? 'true' : null} value={'sauce'} onClick={() => handleActiveTab('sauce')}>Соусы</Tab>
-                <Tab active={activeTab === 'main' ? 'true' : null} value={'main'} onClick={() => handleActiveTab('main')}>Начинки</Tab>
+                <Tab
+                    value={'bun'}
+                    active={activeTab === 'bun' ? 'true' : null}
+                    onClick={() => handleActiveTab('bun')}
+                >
+                    Булки
+                </Tab>
+                <Tab
+                    value={'sauce'}
+                    active={activeTab === 'sauce' ? 'true' : null}
+                    onClick={() => handleActiveTab('sauce')}
+                >
+                    Соусы
+                </Tab>
+                <Tab
+                    value={'main'}
+                    active={activeTab === 'main' ? 'true' : null}
+                    onClick={() => handleActiveTab('main')}
+                >
+                    Начинки
+                </Tab>
             </div>
             <div id='scroll_container' className={styles.scroll_container}>
                 <h2 id="bun" className={styles.cards_header}>Булки</h2>
                 <div className={styles.cards}>
                     {buns.map(bun => {
                         return (
-                            <IngredientCard
+                            <Link
                                 key={bun._id}
-                                ingredient={{...bun}}
-                                count={bunCounts[bun._id] || 0}
-                            />
+                                to={`/ingredients/${bun._id}`}
+                                state={{ backgroundLocation: location }}
+                                className={styles.link}
+                            >
+                                <IngredientCard
+                                    ingredient={{...bun}}
+                                    count={bunCounts[bun._id] || 0}
+                                />
+                            </Link>
                         )}
                     )}
                 </div>
@@ -72,11 +98,17 @@ function BurgerIngredients() {
                 <div className={styles.cards}>
                     {sauces.map(sauce => {
                         return (
-                            <IngredientCard
+                            <Link
                                 key={sauce._id}
-                                ingredient={{...sauce}}
-                                count={ingredientCounts[sauce._id] || 0}
-                            />
+                                to={`/ingredients/${sauce._id}`}
+                                state={{ backgroundLocation: location }}
+                                className={styles.link}
+                            >
+                                <IngredientCard
+                                    ingredient={{...sauce}}
+                                    count={ingredientCounts[sauce._id] || 0}
+                                />
+                            </Link>
                         )}
                     )}
                 </div>
@@ -84,11 +116,17 @@ function BurgerIngredients() {
                 <div className={styles.cards}>
                     {mains.map(main => {
                         return (
-                            <IngredientCard
+                            <Link
                                 key={main._id}
-                                ingredient={{...main}}
-                                count={ingredientCounts[main._id] || 0}
-                            />
+                                to={`/ingredients/${main._id}`}
+                                state={{ backgroundLocation: location }}
+                                className={styles.link}
+                            >
+                                <IngredientCard
+                                    ingredient={{...main}}
+                                    count={ingredientCounts[main._id] || 0}
+                                />
+                            </Link>
                         )}
                     )}
                 </div>
