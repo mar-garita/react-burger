@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import { configureStore } from '@reduxjs/toolkit';
-import { ingredientsReducer } from './reducers/ingredientsReducer.js';
-import { ingredientDetailsReducer } from './reducers/ingredientDetailsReducer.js';
-import { burgerConstructorReducer } from './reducers/burgerConstructorReducer.js';
-import { orderDetailsReducer } from './reducers/orderDetailsReducer.js';
-import { userAuthReducer } from './reducers/authReducer.js';
+import { ingredientsReducer } from './reducers/ingredientsReducer.ts';
+import { ingredientDetailsReducer } from './reducers/ingredientDetailsReducer.ts';
+import { burgerConstructorReducer } from './reducers/burgerConstructorReducer.ts';
+import { orderDetailsReducer } from './reducers/orderDetailsReducer.ts';
+import { userAuthReducer } from './reducers/authReducer.ts';
 
 
 export const rootReducer = combineReducers({
