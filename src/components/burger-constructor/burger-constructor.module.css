@@ -1,4 +1,4 @@
-.constructor {
+.constructor_wrapper {
     composes: pt-25 pb-13 pl-4 from global;
     max-width: 600px;
 }
@@ -25,6 +25,7 @@
     overflow-y: auto;
     display: flex;
     flex-direction: column;
+    width: 100%;
     gap: 16px;
 }
 
